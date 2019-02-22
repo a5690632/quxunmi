@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>智能推荐系统的高效社交产品</title>
+    <meta
+      name="keywords"
+      content="同城夜夜约,找朋友,女生,聊天,社交,红包,女朋友,男朋友,约会,恋爱神器,app,同城夜夜约安卓,同城夜夜约红包,同城夜夜约交友,同城,领红包,捡红包,提现,寂寞,约,语音,视频"
+    />
+    <meta
+      name="description"
+      content="同城夜夜约是针对年轻群体，基于社交酬赏机制驱动的高效社交产品。产品通过标签算法高效即时的进行社交匹配，为用户搭建真实有趣的社交场景，通过红包等各种奖励机制推动用户深化一对一的沟通，是快速认识新朋友，扩展生活圈子的新一代社交产品。"
+    />
+    <link rel="shortcut icon" href="images/ldd_favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="css/public.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <script type="text/javascript">
+      //手机端适配
+      var mobileAgent = new Array(
+        "iphone",
+        "ipod",
+        "ipad",
+        "android",
+        "mobile",
+        "blackberry",
+        "webos",
+        "incognito",
+        "webmate",
+        "bada",
+        "nokia",
+        "lg",
+        "ucweb",
+        "skyfire",
+        "micromessenger"
+      );
+      var browser = navigator.userAgent.toLowerCase();
+      var isMobile = false;
+      for (var i = 0; i < mobileAgent.length; i++) {
+        if (browser.indexOf(mobileAgent[i]) != -1) {
+          isMobile = true;
+          location.href = "/m-index.html ";
+          break;
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="inline-header">
+          <div class="logo"><img src="images/logo.png" /></div>
+          <nav>
+            <ul>
+              <li class="cur"><a href="#">产品介绍</a></li>
+              <li><a href="information.html" target="_blank">资讯内容</a></li>
+              <li><a href="userprotocol.html" target="_blank">用户协议</a></li>
+              <li><a href="privacy.html" target="_blank">隐私政策</a></li>
+              <li><a href="#about">关于同城夜夜约</a></li>
+            </ul>
+          </nav>
+          <div class="user">
+            <span><a href="javascript:;" class="login">登录</a></span>
+            <span> | </span>
+            <span><a href="javascript:;" class="register">注册</a></span>
+          </div>
+        </div>
+      </header>
+      <section id="intro" class="yellow">
+        <div class="main bg-yellow">
+          <div class="yellow-top">
+            <div>
+              <div class="yellow-top-left">
+                <img
+                  class="yellow-img"
+                  src="images/yellow-ldd-logo.png"
+                  width="50%"
+                />
+              </div>
+              <div class="yellow-top-right">
+                <img src="./images/code.png" />
+                <div class="dowload">
+                  <a
+                    href="http://www.dayuyj.com/app/com.love.yue_v1.0_20181121151409_1_release.apk"
+                    type="dowload"
+                    >点击下载</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="yellow-left">
+            <img src="images/ldd-chat.png" width="90%" />
+          </div>
+          <div class="yellow-right">
+            <p>【自动匹配】--根据您的资料，推进匹配的好友</p>
+            <p>
+              【照片认证】--所有用户实名注册，在线客服实时审核，发现欺骗行为还可以举报用户，或者求租客服。您可以放心聊，大胆聊
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="red">
+        <div class="main">
+          <div class="red-left">
+            <img src="images/red-left.png" width="100%" />
+          </div>
+          <div class="red-right">
+            <p>【成功率高】--成功恋爱秀，分享大众朴实的爱情</p>
+            <p>【会员丰富】--上亿单身男女，在线寻找有缘人</p>
+          </div>
+        </div>
+      </section>
+
+      <footer id="about">
+        <div class="main">
+          <div class="footer-logo">
+            <img src="images/footer-logo.png" width="60%" />
+            <p class="footer-intro">
+              同城夜夜约，推出基于资料匹配智能推荐系统的高效社交产品。同城夜夜约专注于移动互联网泛社交领域，倾力打造轻社交、电商社交产品。
+            </p>
+          </div>
+          <div class="footer-qrcode">
+            <div class="footer-qrcode-top">
+              <a href="userprotocol.html" class="footer-a">用户协议</a>
+              <a href="privacy.html" class="footer-a">隐私协议</a>
+            </div>
+            <div class="footer-qrcode-bottom">
+              <img src="./images/code.png" />
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <p>© 2018 Liaodede. All rights reserved. 京ICP备18057644号</p>
+        </div>
+      </footer>
+    </div>
+    <div class="bg">
+      <div class="box">
+        <div class="register-box">
+          <h2>注册 <a href="" class="login-m">登录</a></h2>
+          <form>
+            <label
+              ><span class="icon icon-phone"></span
+              ><input type="text" placeholder="输入手机号" name="phonenumber"
+            /></label>
+            <!--
+              <label><span class="icon icon-verify"></span><input type="text" placeholder="输入验证码" style="width:60%" /><button class="ldd-verifybtn">获取验证码</button></label>
+            -->
+            <label
+              ><span class="icon icon-password"></span
+              ><input type="password" placeholder="设置密码" name="password"
+            /></label>
+            <button class="btn-submit register-submit">确定</button>
+            <p class="error"></p>
+            <p class="success"></p>
+          </form>
+        </div>
+        <div class="login-box">
+          <h2>登录 <a href="" class="regsiter-m">注册</a></h2>
+          <form>
+            <label
+              ><span class="icon icon-phone"></span
+              ><input
+                type="text"
+                placeholder="输入手机号"
+                name="phonenumberLogin"
+            /></label>
+            <label
+              ><span class="icon icon-password"></span
+              ><input
+                type="password"
+                placeholder="请输入密码"
+                name="passwordLogin"
+            /></label>
+            <button class="btn-submit login-submit">确定</button>
+            <p class="error"></p>
+            <p class="success"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/index.js"></script>
+</html>

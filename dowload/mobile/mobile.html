@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>趣寻觅</title>
+    </head>
+    <script>
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt =
+                    "orientationchange" in window
+                        ? "orientationchange"
+                        : "resize",
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener("DOMContentLoaded", recalc, false);
+        })(document, window);
+    </script>
+    <link rel="stylesheet" href="./css/index.css" />
+
+    <body class="index">
+        <header>
+            <div class="head">
+                <img src="./img/logo.png" class="logo" />
+                <img src="./img/1.png" class="name" />
+            </div>
+            <img src="./img/2.png" class="notes" />
+            <a class="dowload" href="http://www.quseek.cn" download="趣寻觅">
+                <img src="./img/dowload.png" />
+            </a>
+        </header>
+        <div class="content"><img src="./img/h5_手机主图.png" /></div>
+        <footer>
+            <div class="address">
+                <a href="./protocol.html"> 用户协议</a>
+                <a href="./privacy.html"> 隐私政策</a>
+            </div>
+            <div class="icon">
+                京ICP备15025283号-2 北京时空飞讯信息技术有限公司
+            </div>
+        </footer>
+    </body>
+</html>

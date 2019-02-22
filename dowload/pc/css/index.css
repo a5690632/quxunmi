@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+img {
+  display: block;
+}
+a {
+  text-decoration: none;
+}
+a:hover,
+a:visited,
+a:link,
+a:active {
+  color: #999999;
+}
+.box {
+  width: 1280px;
+  height: 100vh;
+  margin: auto;
+}
+.box .index header {
+  padding: 70px 0;
+}
+.box .index .content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 72px;
+  background: url("../img//background.png") no-repeat center;
+  background-size: contain;
+  margin-bottom: 126px;
+}
+.box .index .dowload {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 50px;
+}
+.box .index .dowload a {
+  display: block;
+  margin-right: 50px;
+}
+.box .index footer {
+  height: 100px;
+  color: #999999;
+  font-size: 16px;
+}
+.box .index footer .address {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.box .index footer .address a {
+  margin-right: 12px;
+  color: #999999;
+  text-decoration: underline;
+}
+.box .index footer .icon {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.box .privacy {
+  padding-top: 30px;
+}
+.box .privacy header {
+  margin-bottom: 70px;
+}
+.box .privacy .nav {
+  margin-bottom: 40px;
+}
+.box .privacy .nav a:nth-child(1) {
+  color: #5f34f4;
+  margin-right: 45px;
+  text-decoration: underline;
+}
+.box .privacy .nav a {
+  font-size: 20px;
+}
+.box .privacy .content {
+  padding-bottom: 30px;
+  text-indent: 2em;
+}
+.box .privacy .content h3 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 46px ;
+}
+.box .protocol {
+  padding-top: 30px;
+}
+.box .protocol header {
+  margin-bottom: 70px;
+}
+.box .protocol .nav {
+  margin-bottom: 40px;
+}
+.box .protocol .nav a:nth-child(2) {
+  color: #5f34f4;
+  margin-left: 45px;
+  text-decoration: underline;
+}
+.box .protocol .nav a {
+  font-size: 20px;
+}
+.box .protocol .content {
+  padding-bottom: 30px;
+  text-indent: 2em;
+}
+.box .protocol .content h3 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 46px ;
+}
+.box .protocol .content .bold {
+  font-weight: bold;
+}

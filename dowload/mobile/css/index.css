@@ -1,0 +1,78 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+img {
+  display: block;
+}
+.index header {
+  padding-top: 0.87rem;
+}
+.index header .head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.index header .head .name {
+  width: 1.42rem;
+  height: 0.45rem;
+}
+.index header .head .logo {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.2rem;
+}
+.index header .notes {
+  width: 3.41rem;
+  height: 0.32rem;
+  margin: 0.34rem auto 0.98rem;
+}
+.index header .dowload {
+  width: 5.9rem;
+  height: 0.96rem;
+  margin: 0 auto 1.02rem;
+  display: block;
+}
+.index header .dowload img {
+  width: 5.9rem;
+  height: 0.96rem;
+}
+.index .content {
+  background: url("../img/background.png") no-repeat center;
+  display: flex;
+  justify-content: center;
+  background-size: contain;
+}
+.index .content img {
+  width: 5.9rem;
+  height: 7.5rem;
+}
+.index footer {
+  height: 2.8rem;
+  padding-top: 1.4rem;
+  color: #999999;
+  font-size: 0.2rem;
+}
+.index footer .address {
+  display: flex;
+  justify-content: center;
+}
+.index footer .address a {
+  margin-right: 0.12rem;
+  text-decoration: underline;
+}
+.index footer .icon {
+  margin-top: 0.16rem;
+  display: flex;
+  justify-content: center;
+}
+.privacy,
+.protocol {
+  font-size: .3rem;
+  padding: .2rem;
+}
+.privacy .content h3,
+.protocol .content h3 {
+  text-align: center;
+}

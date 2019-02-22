@@ -1,0 +1,390 @@
+span.icon {
+    width: 2.28rem;
+    height: 2.28rem;
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+.icon-qrcode {
+    background: url("../images/icon-qrcode.png") no-repeat center;
+    background-size: 40%;
+}
+
+.icon-intro {
+    background: url("../images/icon-intro.png") no-repeat center;
+    background-size: 50%;
+}
+
+.icon-about {
+    background: url("../images/icon-about.png") no-repeat center;
+    background-size: 50%;
+}
+
+.main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+section {
+    width: 100%;
+}
+
+.blue {
+    background: url("../images/bg-blue.jpg") no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    padding-bottom: 2rem;
+}
+
+.video {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.video-inner {
+    width: 50%;
+    height: 56.25%;
+    border: 4px solid rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+.blue-text {
+    margin: 3rem auto 2rem;
+    width: 80%;
+    text-align: center;
+    color: #fff;
+    font-family: STYuanti-SC-Regular;
+    font-size: 2rem;
+}
+
+.blue-img {
+    margin: 6.83rem auto 5rem;
+    display: block;
+    width: 20%;
+}
+
+.beta {
+    width: 20.08rem;
+    height: 64rem;
+    padding: 5rem;
+    background: url("../images/beta-bg.png") no-repeat 0 bottom;
+    background-size: 100%;
+    position: absolute;
+    top: 0;
+    left: 10%;
+    margin-top: -5rem;
+    z-index: 1;
+    text-align: center;
+}
+
+.ldd-logo {
+    margin-top: 40%;
+}
+
+.ldd-note1 {
+    font-size: 3rem;
+    color: #FFF123;
+    font-weight: 600;
+    margin-top: 3rem;
+}
+
+.ldd-note2 {
+    margin-top: 3rem;
+}
+
+.ldd-input {
+    border-radius: 1.3rem;
+    background-color: #0464DB;
+    border: 0;
+    height: 2.28rem;
+    line-height: 2.28rem;
+    text-indent: 1rem;
+    width: 90%;
+    padding: 0.25rem;
+    margin-top: 2rem;
+    outline: none;
+    color: #FFF21F;
+    font-size: 0.875rem;
+}
+
+.ldd-benefit {
+    margin-top: 2rem;
+}
+
+.ldd-benefit h3 {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    text-align: left;
+    color: #fff;
+    font-weight: 400;
+    font-family: STYuanti-SC-Regular;
+}
+
+.ldd-benefit p {
+    font-size: 2rem;
+    line-height: 3rem;
+    text-align: left;
+    color: #fff;
+    margin-top: 1rem;
+    font-weight: 400;
+    font-family: STYuanti-SC-Regular;
+}
+
+.yellow {
+    background: (255, 251, 240);
+    background-size: 100% 100%;
+    overflow: hidden;
+    padding-bottom: 1rem;
+    padding-top: 0;
+}
+
+.yellow-img {
+    display: block;
+    margin: 4rem auto 2rem;
+    width: 192px;
+    height: 192px;
+}
+
+.yellow h3 {
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.yellow-left {
+    float: left;
+    width: 60%;
+}
+
+.yellow-right {
+    margin-top: 10rem;
+    font-size: 2.0rem;
+
+}
+
+.yellow-right p {
+    margin-top: 20px;
+}
+
+.download-img {
+    margin-right: 2rem;
+    display: block;
+}
+
+.download-btn {
+    text-align: center;
+    padding-left: 7rem;
+    font-size: 1.4rem;
+}
+
+.yellow-right {
+    width: 34%;
+    float: left;
+}
+
+.yellow-right-top {
+    width: 100%;
+    position: relative;
+}
+
+.yellow-right-top span {
+    text-align: center;
+    font-family: STYuanti-SC-Regular;
+    display: block;
+    width: 100%;
+}
+
+.red-text {
+    margin-top: 8rem;
+}
+
+.red-right {
+    margin-top: 10rem;
+    font-size: 2.0rem;
+    font-family: "微软雅黑"
+}
+
+.red-right p {
+    margin-top: 20px;
+}
+
+.ldd-dowload {
+    width: 80%;
+    height: 4.5rem;
+    line-height: 4.5rem;
+    position: absolute;
+    bottom: 2rem;
+    left: 2.2rem;
+    background: url('../images/ldd-dowload-bg.png');
+    background-size: 100% 100%;
+}
+
+/*.yellow-right img{position:absolute;z-index:2;top:50rem;right:10rem;width:40%;}*/
+.red {
+    background: (255, 251, 240);
+    background-size: 100% 100%;
+    overflow: hidden;
+    padding-bottom: 5rem;
+}
+
+.red-left {
+    width: 66%;
+    margin-left: -2rem;
+    float: left;
+}
+
+.red-right {
+    width: 34%;
+    float: right;
+}
+
+.grey {
+    background: url("../images/bg-grey.png") repeat-x top #EDEDED;
+    background-size: 100%;
+}
+
+.grey-top,
+.grey-list {
+    padding: 0 0 5rem 0;
+    text-align: center;
+}
+
+.grey-top {
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 5rem;
+}
+
+.grey-top h2 {
+    font-size: 1.875rem;
+    margin: 1rem 0;
+}
+
+.grey-top p {
+    font-size: 1.2rem;
+    line-height: 2rem;
+    color: #373737;
+}
+
+.grey-list {
+    text-align: left;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.grey-list h3 {
+    color: #F76344;
+    font-size: 1.5rem;
+    line-height: 2.6rem;
+    margin: 1rem 0;
+    padding-left: 3rem;
+    display: inline-flex;
+}
+
+.grey-list ul,
+.grey-list ul li {
+    width: 90%;
+}
+
+.grey-list ul li {
+    background-color: #fff;
+    border-radius: 1rem;
+    padding: 3rem;
+    margin: 2rem 0;
+    overflow: hidden;
+}
+
+.grey-list ul li h4 {
+    color: #454545;
+    font-size: 1.5rem;
+    line-height: 2.28rem;
+    width: 100%;
+    margin: 1rem 0;
+    display: inline-flex;
+}
+
+.grey-list ul li p {
+    color: #606061;
+    font-size: 1.2rem;
+    line-height: 2.30rem;
+    width: 100%;
+    margin: 0.45rem 0;
+    display: inline-flex;
+}
+
+.grey-indent {
+    margin-left: 4.28rem;
+}
+
+.grey-icon {
+    margin-right: 1rem;
+    float: left;
+}
+
+p.grey-content {
+    float: left;
+    width: 85% !important;
+    margin-top: 0 !important;
+}
+
+.icon-q1 {
+    background: url("../images/icon-q1.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-q2 {
+    background: url("../images/icon-q2.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-q3 {
+    background: url("../images/icon-q3.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-q4 {
+    background: url("../images/icon-q4.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-q5 {
+    background: url("../images/icon-q5.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-a1 {
+    background: url("../images/icon-a1.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-a2 {
+    background: url("../images/icon-a2.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-a3 {
+    background: url("../images/icon-a3.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-a4 {
+    background: url("../images/icon-a4.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-a5 {
+    background: url("../images/icon-a5.png") no-repeat center;
+    background-size: 60%;
+}
+
+.icon-xingxing {
+    background: url("../images/icon-xingxing.png") no-repeat center;
+    background-size: 60%;
+}
+
+.error,
+.verifycode {
+    margin: 0.65rem auto;
+    color: red;
+    display: none;
+}

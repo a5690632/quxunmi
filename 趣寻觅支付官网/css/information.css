@@ -1,0 +1,45 @@
+
+span.icon{width:2.28rem; height:2.28rem;display:inline-block;margin-left:1rem;}
+.icon-qrcode{background:url("../images/icon-qrcode.png") no-repeat center;background-size:40%;}
+.icon-intro{background:url("../images/icon-intro.png") no-repeat center;background-size:50%;}
+.icon-about{background:url("../images/icon-about.png") no-repeat center;background-size:50%;}
+.main{width:80%; margin: 0 auto;}
+section{width:100%;}
+.blue{background:url("../images/bg-blue.jpg") no-repeat; background-size:100% 100%;overflow:hidden;padding-bottom:2rem;}
+.video{width:100%;margin:0 auto;text-align:center;}
+.video-inner{width:50%;height:56.25%;border:4px solid rgba(255,255,255,0.7);text-align: center;}
+.blue-text{margin:3rem auto 2rem;width:80%;text-align: center; color:#fff;font-family:STYuanti-SC-Regular;font-size:2rem;}
+.blue-img{margin:6.83rem auto 5rem;display:block; width:20%;}
+.beta{width:20.08rem;height:64rem;padding:5rem;background:url("../images/beta-bg.png") no-repeat 0 bottom;background-size:100%;position:absolute;top:0;left:10%;margin-top:-5rem;z-index:1;text-align:center;}
+.ldd-logo{margin-top:40%;}
+.ldd-note1{font-size:3rem;color:#FFF123;font-weight:600;margin-top:3rem;}
+.ldd-note2{margin-top:3rem;}
+.ldd-input{border-radius:1.3rem;background-color:#0464DB;border:0;height:2.28rem;line-height:2.28rem;text-indent:1rem;width:90%;padding:0.25rem;margin-top:2rem;outline:none;color:#FFF21F;font-size:0.875rem;}
+.grey{background:#EDEDED;}
+.grey-list{padding:0 0 5rem 0;text-align:center;}
+.grey-list{text-align:left;width:80%;margin:0 auto;}
+.grey-list h3{color:#000000;font-size:1.5rem;line-height:2.6rem;margin:2rem 0 1rem;display:inline-flex;}
+.grey-list h3 .icon{width:4rem; height:4rem;}
+.icon-fufei{background:url("../images/icon-fufei.png") no-repeat center;background-size:80%;}
+.h3{height:4rem; line-height:4rem; display:block;}
+.grey-list ul, .grey-list ul li{width:90%;}
+.grey-list ul li{background-color:#fff;border-radius: 1rem;padding:2rem 3rem;margin:2rem 0;overflow:hidden;}
+.grey-list ul li h4{color:#454545;font-size:1.5rem;line-height:2.28rem;width:100%;margin:1rem 0;display:inline-flex;}
+.grey-list ul li h4 a{color:#454545;}
+.grey-list ul li h4 a:hover{text-decoration: underline;}
+.grey-list ul li h4 .h4{font-family:Impact;margin-right:1rem;}
+.grey-list ul li p{color:#525252;font-size:1rem;line-height:2.30rem;width:100%;display:inline-flex;}
+.grey-indent{margin-left:2.28rem;text-align:center;}
+.grey-indent p{text-align:left;}
+.grey-indent .time{margin-left:2rem;}
+.content-time{margin:0.5rem 0 1rem;}
+.content-img{width:75%;}
+.grey-icon{margin-right:1rem;float:left;}
+p.grey-content{float:left;width:85% !important;margin-top:0 !important;}
+.pay-btn{margin:2rem auto 0;display:block; width:10rem;height:4rem;padding:0 1rem;font-size:1rem;background-color:#F65F47;border-radius: 4px;color:#fff;border:0;outline:none;cursor: pointer;}
+.pay-box{text-align:center;}
+.pay-box h2{width:60%;margin:2rem auto;position:relative;}
+.pay-box img{margin-bottom:1rem;}
+.pay-box h3{font-size:1.5rem;}
+.icon-alipay{width:24px !important;height:24px !important; top:0px !important;left:inherit !important; margin-left:-30px !important;background:url("../images/icon-alipay.png") no-repeat center;background-size: auto 100%;}
+.hide{display:none;}
