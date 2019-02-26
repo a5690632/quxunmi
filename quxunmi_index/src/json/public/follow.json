@@ -1,0 +1,7 @@
+{
+    "resultCode": 1000,
+    "resultMessage": "Success",
+    "resultData": {
+        "hasFollow": true
+    }
+}

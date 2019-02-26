@@ -1,0 +1,15 @@
+{
+    "resultCode": 1000,
+    "resultMessage": "Success",
+    "resultData": {
+        "id": "c72f4294ba804f76b0f8ae6cbede2cd9",
+        "nickName": "阿瑟东",
+        "cityCode": "阿瑟东",
+        "headImg": "前端",
+        "introduction": "随便",
+        "hasFollow": false,
+        "topicNum": 1110,
+        "fansNum": 110,
+        "followNum": 110
+    }
+}

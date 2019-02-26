@@ -1,0 +1,55 @@
+{
+    "resultCode": 1000,
+    "resultMessage": "Success",
+    "resultData": {
+        "hasNext": false,
+        "topicList": [
+            {
+                "id": "11",
+                "content": "新的帖子",
+                "userId": "1",
+                "publishTime": "2018-10-29 20:28:18",
+                "displayFlag": 1,
+                "loveFlag": 0,
+                "loveCount": 2,
+                "photoList": [
+                    "http://www.iconpng.com/png/media_monster_christmas/mail.png",
+                    "http://www.iconpng.com/png/winter_lollipop/mail.png"
+                ],
+                "commentList": [
+                    {
+                        "id": "1",
+                        "topicId": "11",
+                        "content": "这是留言demo",
+                        "userId": "1",
+                        "publishTime": null,
+                        "displayFlag": 1
+                    }
+                ],
+                "user": {
+                    "id": "1",
+                    "phone": "2",
+                    "nickName": "阿瑟东",
+                    "gender": null,
+                    "age": null,
+                    "headImg": null,
+                    "occupation": null,
+                    "occupationMemo": null,
+                    "cityCode": null,
+                    "introduction": null,
+                    "coordinate": null,
+                    "createTime": null,
+                    "updateTime": null,
+                    "channelCode": null,
+                    "imUserId": null,
+                    "name": null,
+                    "tagMemo": null,
+                    "privateMemo": null,
+                    "onlineFlag": 0
+                },
+                "followFlag": 0,
+                "greetFlag": 0
+            }
+        ]
+    }
+}

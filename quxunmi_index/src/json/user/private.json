@@ -1,0 +1,33 @@
+{
+    "resultCode": 1000,
+    "resultMessage": "Success",
+    "resultData": {
+        "privateTags": {
+            "styleTagList": [
+                "日韩",
+                "性感",
+                "运动"
+            ],
+            "appearTagList": [
+                "白皙"
+            ],
+            "bodilyFormTagList": [
+                "匀称"
+            ],
+            "charmTagList": [
+                "腿部",
+                "臀部"
+            ]
+        },
+        "prvateInfo": {
+            "height": 175,
+            "weight": 49,
+            "shoeSize": 39,
+            "bustSize": 90,
+            "waistSize": 63,
+            "hipSize": 89,
+            "eyeColor": "黑",
+            "hairColor": "棕"
+        }
+    }
+}

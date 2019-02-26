@@ -1,0 +1,14 @@
+{
+    "resultCode": 1000,
+    "resultMessage": "Success",
+    "resultData": {
+        "age": 18,
+        "gender": 1,
+        "phone": "18612321360",
+        "headImg": "12",
+        "nickName": "12",
+        "cityCode": "12",
+        "occupation": "12",
+        "introduction": ""
+    }
+}

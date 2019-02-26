@@ -1,0 +1,11 @@
+{
+    "resultCode": 1000,
+    "resultMessage": "Success",
+    "resultData": {
+        "photoList": [
+            "aaa.jpg",
+            "bbb.jpg"
+        ],
+        "hasNext": false
+    }
+}
