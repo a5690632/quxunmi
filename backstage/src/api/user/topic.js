@@ -14,20 +14,21 @@ export const reqTopicList = ({ userId, pageNo, pageSize }) => {
 
 /**
  * @method reqTopicDetail 获取帖子详情
- *
+ *@param {strimg} id   帖子id
  */
 
-export const reqTopicDetail = param => {
-    return axios.post(`${line}getTopicDetail`, { param });
+export const reqTopicDetail = ({ id }) => {
+    return axios.post(`${line}getTopicDetail`, { id });
 };
 
 /**
- * @method removeTopic 删除帖子
+ * @method reqDelTopic 删除帖子，
+ * @param {strimg}  id  帖子id
  *
  */
 
-export const removeTopic = () => {
-    return axios.post(`${line}delTopic`);
+export const reqDelTopic = ({ id }) => {
+    return axios.post(`${line}delTopic`, { id });
 };
 
 /**
@@ -70,18 +71,22 @@ export const saveTopic = ({
 
 export const updateTopic = ({
     userId,
+    id,
     title,
     content,
     city,
     province,
-    archives
+    archives,
+    publishTime
 }) => {
     return axios.post(`${line}updateTopic`, {
         userId,
+        id,
         title,
         content,
         city,
         province,
-        archives
+        archives,
+        publishTime
     });
 };

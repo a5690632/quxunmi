@@ -52,7 +52,7 @@ export class userList extends Component {
                 title: "操作",
                 render: (text, record) => {
                     return (
-                        <div>
+                        <div className="action">
                             <Button
                                 size="small"
                                 onClick={() => this.props.delUser(text.id)}
@@ -87,7 +87,7 @@ export class userList extends Component {
             }
         ];
         const data = this.props.userList.userList;
-        console.log(data);
+
         return (
             <div className="user-list">
                 <Button type="primary" className="add">

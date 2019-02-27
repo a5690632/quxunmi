@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 const InitState = fromJS({
     userList: {
@@ -26,9 +26,10 @@ const InitState = fromJS({
         content: "",
         city: "",
         province: "",
-        archives: []
+        archives: [],
+        publishTime: ""
     },
-    message: {
+    messageDetail: {
         userId: "",
         privateInfo: {
             headImg: "",
@@ -47,7 +48,7 @@ const InitState = fromJS({
             魅力部位: [],
             外貌标签: []
         },
-        workExperience: ""
+        workExperience: []
     }
 });
 
@@ -69,37 +70,44 @@ const reducer = (state = InitState, { type, data }) => {
             let userIndex = state
                 .getIn(["userList", "userList"])
                 .findIndex(value => {
-                    return value.get("id") == data;
+                    return value.get("id") === data;
                 });
             return state.setIn(
                 ["userList", "userList"],
                 state.getIn(["userList", "userList"]).delete(userIndex)
             );
+
+        case actionTypes.SET_USER_MESSAGE:
+            return state.set("messageDetail", fromJS(data));
+
         case actionTypes.SET_TOPIC_DETAIL:
             return state.set("topicDetail", fromJS(data));
-        // case actionTypes.
+        case actionTypes.CHANGE_TOPIC_LIST:
+            return state.set("topicList", fromJS(data));
+
         case actionTypes.CLEAR_TOPIC_DETAIL:
             return state.merge({
-                topic: state.get("topic").map(item => {
-                    return "";
+                topicDetail: state.get("topicDetail").map(item => {
+                    console.log(item);
+                    if (List.isList(item)) {
+                        return List();
+                    } else {
+                        return "";
+                    }
                 })
             });
+
         case actionTypes.DEL_TOPIC:
             let TopicIndex = state
                 .getIn(["topicList", "topicList"])
                 .findIndex(value => {
-                    return value.get("id") == data;
+                    return value.get("id") === data;
                 });
+            console.log(TopicIndex);
             return state.setIn(
                 ["topicList", "topicList"],
                 state.getIn(["topicList", "topicList"]).delete(TopicIndex)
             );
-        case actionTypes.CLEAR_MESSAGE:
-            return state.merge({
-                topic: state.get("message").map(item => {
-                    return "";
-                })
-            });
 
         default:
             return state;

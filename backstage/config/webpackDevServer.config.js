@@ -82,11 +82,11 @@ module.exports = function(proxy, allowedHost) {
         },
         public: allowedHost,
         proxy: {
-            '/api': {
-                target: 'http://api.quseek.cn/api/rest/v1x0/',//代理地址
-                changeOrigin: true,//代理跨域
+            "/api": {
+                target: "http://manager.quseek.cn/api/rest/v1x0/", //代理地址
+                changeOrigin: true, //代理跨域
                 pathRewrite: {
-                    '/api/': '/'
+                    "/api/": "/"
                 }
             }
         },

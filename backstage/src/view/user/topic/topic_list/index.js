@@ -43,12 +43,10 @@ export class topicList extends Component {
                 title: "操作",
                 render: (text, record) => {
                     return (
-                        <div>
+                        <div className="action">
                             <Button
                                 size="small"
-                                onClick={text =>
-                                    this.props.delTopic(text.userId)
-                                }
+                                onClick={() => this.props.delTopic(text.id)}
                             >
                                 删除
                             </Button>
@@ -56,8 +54,8 @@ export class topicList extends Component {
                                 <Link
                                     to={{
                                         pathname: `/user/topic_detail/${
-                                            record.id
-                                        }`
+                                            this.state.userId
+                                        }/${text.id}`
                                     }}
                                 >
                                     编辑
@@ -72,12 +70,14 @@ export class topicList extends Component {
         return (
             <div className="topic-list">
                 <Button type="primary" className="add">
-                    <Link to="/user/topic_detail/">增加用户</Link>
+                    <Link to={`/user/topic_detail/${this.state.userId}/`}>
+                        增加帖子
+                    </Link>
                 </Button>
                 <Table
                     columns={columns}
                     dataSource={data}
-                    rowKey={record => record.userId}
+                    rowKey={record => record.id}
                     pagination={this.props.pagination}
                     onChange={this.props.handleTableChange}
                 />
@@ -85,9 +85,12 @@ export class topicList extends Component {
         );
     }
     componentDidMount() {
-        let { id } = this.props.match.params;
-        if (id) {
-            this.props.getTopicList({ userId: id, pageNo: 1, pageSize: 10 });
+        let { userId } = this.props.match.params;
+        this.setState({
+            userId
+        });
+        if (userId) {
+            this.props.getTopicList({ userId, pageNo: 1, pageSize: 10 });
         }
     }
 }
@@ -108,7 +111,8 @@ const mapDispatchToProps = (dispatch, prop) => {
             dispatch(getTopicList({ pageNo: page, pageSize: 10 }));
         },
         delTopic: id => {
-            dispatch(delTopic(id));
+            console.log(id);
+            dispatch(delTopic({ id }));
         }
     };
 };

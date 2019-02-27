@@ -143,3 +143,12 @@ export const delPrivete = ({ userId }) => {
         userId
     });
 };
+
+/**
+ *  @method reqPriveteInfo 获取私密信息
+ * @param {string} userId 用户id
+ */
+
+export const reqPriveteInfo = ({ userId }) => {
+    return axios.post(`${line}getPriveteInfo`, { userId });
+};

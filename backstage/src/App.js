@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu } from "antd";
 import { Route, Link, Switch, Redirect } from "react-router-dom";
 import "./app.less";
 import { qiniuToken } from "./store/actionCreator";
 
 import UserDetail from "./view/user/user/user_detail/";
-import UserMseeageDetail from "./view/user/message/message_detail/";
+import UserMseeageDetail from "./view/user/user/message_detail/";
 import TopicList from "./view/user/topic/topic_list/";
 import TopicDetail from "./view/user/topic/topic_detail/";
 import UserList from "./view/user/user/user_list";
@@ -48,11 +48,14 @@ let routeSwitch = () => {
             <Route path="/user/user_list" component={UserList} />
             <Route path="/user/user_detail/:id?" component={UserDetail} />
             <Route
-                path="/user/mseeage_detail/:id?"
+                path="/user/message_detail/:id?"
                 component={UserMseeageDetail}
             />
-            <Route path="/user/topic_list/:id?" component={TopicList} />
-            <Route path="/user/topic_detail/:id?" component={TopicDetail} />
+            <Route path="/user/topic_list/:userId?" component={TopicList} />
+            <Route
+                path="/user/topic_detail/:userId/:id?"
+                component={TopicDetail}
+            />
         </Switch>
     );
 };

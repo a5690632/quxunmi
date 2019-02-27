@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addMessage } from "../../store/actionCreactor";
+import { addUserMessage, getUserMessage } from "../../store/actionCreactor";
 import propTypes from "prop-types";
 import {
     Form,
@@ -12,12 +12,14 @@ import {
     Col,
     Tag,
     Tooltip,
-    Icon
+    Icon,
+    Tabs
 } from "antd";
 
 import { qiniuAction, qiniuUrl } from "../../../../api/common/common.js";
 import "./index.less";
-export class add extends Component {
+
+export class MessageDetail extends Component {
     static propTypes = {
         message: propTypes.shape({
             userId: propTypes.string.isRequired,
@@ -30,29 +32,38 @@ export class add extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             loading: false,
             inputVisible: {
                 风格标签: false,
                 外貌标签: false,
-                魅力部位: false
+                魅力部位: false,
+                workExperience: false
             },
-            inputValue: ""
+            privateTags: {
+                风格标签: [],
+                外貌标签: [],
+                魅力部位: []
+            },
+            workExperience: [],
+            inputValue: "",
+            headImg: ""
         };
     }
     render() {
-        const { privateTags, privateInfo } = this.props.message;
-        const { headImg } = privateInfo;
         const {
-            token,
-            handleSubmit,
-            handleInputConfirm,
-            handleClose
-        } = this.props;
+            privateTags,
+            workExperience,
+            headImg,
+            inputVisible
+        } = this.state;
+        const { token, handleSubmit, handleInputConfirm } = this.props;
         const style = privateTags["风格标签"];
         const appearance = privateTags["外貌标签"];
         const charm = privateTags["魅力部位"];
         const { getFieldDecorator } = this.props.form;
-        const { inputVisible, inputValue } = this.state;
+
+        const TabPane = Tabs.TabPane;
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? "loading" : "plus"} />
@@ -70,42 +81,87 @@ export class add extends Component {
             }
         };
         return (
-            <div className="message-add">
-                <h3 className="name">增加私密信息</h3>
-                <Form onSubmit={e => handleSubmit(e, this.props)}>
-                    <Form.Item label="用户id" {...FromLayout}>
-                        {getFieldDecorator("userId", {
-                            rules: [{ required: true, message: "请输入用户id" }]
-                        })(<Input placeholder="请输入用户id" />)}
-                    </Form.Item>
+            <div className="message-detail">
+                <Tabs defaultActiveKey="2" onChange={key => this.jump(key)}>
+                    <TabPane tab="基本信息" key="1" />
+                    <TabPane tab="私密信息" key="2" />
+                </Tabs>
+
+                <Form onSubmit={e => handleSubmit(e, this)}>
                     <Form.Item label="微信" {...FromLayout}>
-                        {getFieldDecorator("wxNo", {
+                        {getFieldDecorator("privateInfo[wxNo]", {
                             rules: [{ required: true, message: "请输入微信号" }]
                         })(<Input placeholder="请输入微信号" />)}
                     </Form.Item>
                     <Form.Item label="工作经验" {...FromLayout}>
-                        {getFieldDecorator("workExperience", {
-                            rules: [
-                                { required: true, message: "请输入工作经验" }
-                            ]
-                        })(
-                            <Input.TextArea
-                                placeholder="请输入工作经验"
-                                autosize={{ minRows: 4, maxRows: 6 }}
-                            />
+                        {getFieldDecorator("workExperience", {})(
+                            <div>
+                                {workExperience.map((tag, index) => {
+                                    const isLongTag = tag.length > 20;
+                                    const tagElem = (
+                                        <Tag
+                                            key={tag}
+                                            closable
+                                            afterClose={() =>
+                                                this.handleClose(tag)
+                                            }
+                                        >
+                                            {isLongTag
+                                                ? `${tag.slice(0, 20)}...`
+                                                : tag}
+                                        </Tag>
+                                    );
+                                    return isLongTag ? (
+                                        <Tooltip title={tag} key={tag}>
+                                            {tagElem}
+                                        </Tooltip>
+                                    ) : (
+                                        tagElem
+                                    );
+                                })}
+
+                                {inputVisible.workExperience && (
+                                    <Input
+                                        type="text"
+                                        size="small"
+                                        style={{ width: 78 }}
+                                        onChange={this.handleInputChange}
+                                        onBlur={e =>
+                                            handleInputConfirm(
+                                                e,
+                                                "workExperience",
+                                                this
+                                            )
+                                        }
+                                    />
+                                )}
+                                {!inputVisible.workExperience && (
+                                    <Tag
+                                        onClick={() =>
+                                            this.showInput("workExperience")
+                                        }
+                                        style={{
+                                            background: "#fff",
+                                            borderStyle: "dashed"
+                                        }}
+                                    >
+                                        <Icon type="plus" /> New Tag
+                                    </Tag>
+                                )}
+                            </div>
                         )}
                     </Form.Item>
                     <Form.Item label="外貌标签" {...FromLayout}>
-                        {getFieldDecorator("外貌标签", {})(
+                        {getFieldDecorator("privateTags[外貌标签]", {})(
                             <div>
                                 {appearance.map((tag, index) => {
                                     const isLongTag = tag.length > 20;
                                     const tagElem = (
                                         <Tag
                                             key={tag}
-                                            closable={index !== 0}
+                                            closable
                                             afterClose={() =>
-                                                handleClose(
+                                                this.handleClose(
                                                     tag,
                                                     appearance,
                                                     "外貌标签"
@@ -157,17 +213,18 @@ export class add extends Component {
                         )}
                     </Form.Item>
                     <Form.Item label="魅力部位" {...FromLayout}>
-                        {getFieldDecorator("魅力部位", {})(
+                        {getFieldDecorator("privateTags[魅力部位]", {})(
                             <div>
                                 {charm.map((tag, index) => {
                                     const isLongTag = tag.length > 20;
                                     const tagElem = (
                                         <Tag
+                                            closable
                                             key={tag}
-                                            closable={index !== 0}
                                             afterClose={() =>
-                                                handleClose(
+                                                this.handleClose(
                                                     tag,
+
                                                     charm,
                                                     "魅力部位"
                                                 )
@@ -219,16 +276,16 @@ export class add extends Component {
                     </Form.Item>
 
                     <Form.Item label="风格标签" {...FromLayout}>
-                        {getFieldDecorator("风格标签", {})(
+                        {getFieldDecorator("privateTags[风格标签]", {})(
                             <div>
                                 {style.map((tag, index) => {
                                     const isLongTag = tag.length > 20;
                                     const tagElem = (
                                         <Tag
                                             key={tag}
-                                            closable={index !== 0}
+                                            closable
                                             afterClose={() =>
-                                                handleClose(
+                                                this.handleClose(
                                                     tag,
                                                     style,
                                                     "风格标签"
@@ -248,6 +305,7 @@ export class add extends Component {
                                         tagElem
                                     );
                                 })}
+
                                 {inputVisible["风格标签"] && (
                                     <Input
                                         type="text"
@@ -280,7 +338,7 @@ export class add extends Component {
                         )}
                     </Form.Item>
                     <Form.Item label="身高" {...FromLayout}>
-                        {getFieldDecorator("height", {
+                        {getFieldDecorator("privateInfo[height]", {
                             rules: [{ required: true, message: "请输入身高" }]
                         })(<Input placeholder="请输入身高" />)}
                     </Form.Item>
@@ -295,7 +353,7 @@ export class add extends Component {
                         })(<Input placeholder="请输入体重" />)}
                     </Form.Item>
                     <Form.Item label="鞋码" {...FromLayout}>
-                        {getFieldDecorator("shoeSize", {
+                        {getFieldDecorator(`privateInfo[shoeSize]`, {
                             rules: [
                                 {
                                     required: true,
@@ -305,17 +363,17 @@ export class add extends Component {
                         })(<Input placeholder="请输入鞋码" />)}
                     </Form.Item>
                     <Form.Item label="胸围" {...FromLayout}>
-                        {getFieldDecorator("bustSize", {
+                        {getFieldDecorator(`privateInfo[bustSize]`, {
                             rules: [{ required: true, message: "请输入胸围" }]
                         })(<Input placeholder="请输入胸围" />)}
                     </Form.Item>
                     <Form.Item label="腰围" {...FromLayout}>
-                        {getFieldDecorator("waistSize", {
+                        {getFieldDecorator(`privateInfo[waistSize]`, {
                             rules: [{ required: true, message: "请输入腰围" }]
                         })(<Input placeholder="请输入腰围" />)}
                     </Form.Item>
                     <Form.Item label="臀围" {...FromLayout}>
-                        {getFieldDecorator("hipSize", {
+                        {getFieldDecorator(`privateInfo[hipSize]`, {
                             rules: [
                                 {
                                     required: true,
@@ -325,7 +383,7 @@ export class add extends Component {
                         })(<Input placeholder="请输入身高" />)}
                     </Form.Item>
                     <Form.Item label="目色" {...FromLayout}>
-                        {getFieldDecorator("eyeColor", {
+                        {getFieldDecorator(`privateInfo[eyeColor]`, {
                             rules: [
                                 {
                                     required: true,
@@ -335,7 +393,7 @@ export class add extends Component {
                         })(<Input placeholder="请输入目色" />)}
                     </Form.Item>
                     <Form.Item label="发色" {...FromLayout}>
-                        {getFieldDecorator("hairColor", {
+                        {getFieldDecorator(`privateInfo[hairColor]`, {
                             rules: [
                                 {
                                     required: true,
@@ -346,7 +404,7 @@ export class add extends Component {
                     </Form.Item>
 
                     <Form.Item label="头像" {...FromLayout}>
-                        {getFieldDecorator("headImg", {
+                        {getFieldDecorator(`privateInfo[headImg]`, {
                             rules: [
                                 {
                                     required: true,
@@ -367,7 +425,11 @@ export class add extends Component {
                                 })}
                             >
                                 {headImg ? (
-                                    <img src={headImg} alt="avatar" />
+                                    <img
+                                        src={headImg}
+                                        alt="avatar"
+                                        className="headimg"
+                                    />
                                 ) : (
                                     uploadButton
                                 )}
@@ -385,19 +447,33 @@ export class add extends Component {
             </div>
         );
     }
+    componentDidMount() {
+        let { id } = this.props.match.params;
+        this.setState({
+            id
+        });
+        this.props.getMessage({ userId: id });
+    }
 
-    unloadChange = info => {
-        if (info.file.status === "uploading") {
+    componentDidUpdate(prevProps) {
+        if (
+            this.props.messageDetail.userId !== prevProps.messageDetail.userId
+        ) {
             this.setState({
-                loading: true
+                headImg: this.props.messageDetail.privateInfo.headImg,
+                privateTags: this.props.messageDetail.privateTags,
+                workExperience: this.props.messageDetail.workExperience
             });
         }
-        if (info.file.status === "done") {
-            this.setState({
-                loading: false
+    }
+    jump = key => {
+        if (key === "1") {
+            this.props.history.push({
+                pathname: `/user/user_detail/${this.state.id}`
             });
         }
     };
+
     beforeUpload = file => {
         const isJPG = file.type === "image/jpeg";
         const isPNG = file.type === "image/png";
@@ -409,8 +485,22 @@ export class add extends Component {
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
             message.error("Image must smaller than 2MB!");
+            return false;
         }
-        return isJPG && isLt2M;
+    };
+    unloadChange = info => {
+        if (info.file.status === "uploading") {
+            this.setState({
+                loading: true
+            });
+        }
+        if (info.file.status === "done") {
+            this.setState({
+                loading: false
+            });
+            let img = `${qiniuUrl}${info.file.response.key}`;
+            this.setState({ headImg: img });
+        }
     };
 
     showInput = name => {
@@ -418,7 +508,6 @@ export class add extends Component {
         for (var k in inputVisible) {
             inputVisible[k] = false;
         }
-
         inputVisible[name] = true;
 
         this.setState({ inputVisible });
@@ -427,29 +516,65 @@ export class add extends Component {
     handleInputChange = e => {
         this.setState({ inputValue: e.target.value });
     };
+    handleClose = (removedTag, data, name) => {
+        const tag = data.filter(tag => tag !== removedTag);
+        this.setState({
+            privateTags: {
+                ...this.state.privateTags,
+                [name]: tag
+            }
+        });
+    };
 }
 
 const mapStateToProps = state => ({
-    message: state.getIn(["user", "message"]).toJS(),
+    messageDetail: state.getIn(["user", "messageDetail"]).toJS(),
     token: state.getIn(["common", "qiniuToken"])
 });
 
 const mapDispatchToProps = dispatch => ({
-    handleClose(removedTag, data, name) {
-        const tags = data.filter(tag => tag !== removedTag);
+    getMessage(param) {
+        dispatch(getUserMessage(param));
     },
     handleInputConfirm(e, name, self) {
-        let tagList = [...self.props.message.privateTags[name]];
+        let tagList;
+        if (name === "workExperience") {
+            tagList = [...self.state.workExperience];
+        } else {
+            tagList = [...self.state.privateTags[name]];
+        }
+
         let inputVisible = {
             ...self.state.inputVisible
         };
         inputVisible[name] = false;
-        if (e.target.value != "") {
-            tagList.push(e.target.value);
-            self.setState(() => ({
-                inputVisible,
-                inputValue: ""
-            }));
+        if (e.target.value !== "") {
+            if (!tagList.includes(e.target.value)) {
+                tagList.push(e.target.value);
+                if (name === "workExperience") {
+                    console.log(1);
+                    self.setState(() => ({
+                        inputVisible,
+                        inputValue: "",
+                        workExperience: tagList
+                    }));
+                } else {
+                    self.setState(() => ({
+                        inputVisible,
+                        inputValue: "",
+                        privateTags: {
+                            ...self.state.privateTags,
+                            [name]: tagList
+                        }
+                    }));
+                }
+            } else {
+                message.error("重复标签");
+                self.setState(() => ({
+                    inputVisible,
+                    inputValue: ""
+                }));
+            }
         } else {
             self.setState(() => ({
                 inputVisible
@@ -457,14 +582,18 @@ const mapDispatchToProps = dispatch => ({
         }
     },
 
-    handleSubmit(e, props) {
+    handleSubmit(e, self) {
         e.preventDefault();
-        props.form.validateFields((err, values) => {
+        self.props.form.validateFields(async (err, values) => {
             if (!err) {
-                if () {
-                    
+                values.privateInfo.headImg = self.state.headImg;
+                values.privateTags = self.state.privateTags;
+                values.userId = self.state.id;
+                values.workExperience = self.state.workExperience;
+                let status = await dispatch(addUserMessage(values));
+                if (status) {
+                    message.success("成功");
                 }
-                dispatch(addMessage({ ...props.message }));
             }
         });
     }
@@ -473,71 +602,27 @@ const mapDispatchToProps = dispatch => ({
 const WrappedNormalLoginForm = Form.create({
     name: "add_message",
     mapPropsToFields(props) {
-        return {
-            userId: Form.createFormField({
-                value: props.message.userId
-            }),
-            外貌标签: Form.createFormField({
-                fromName: "privateTags",
-                value: props.message.privateTags["外貌标签"]
-            }),
-            魅力部位: Form.createFormField({
-                fromName: "privateTags",
-                value: props.message.privateTags["魅力部位"]
-            }),
-            风格标签: Form.createFormField({
-                fromName: "privateTags",
-                value: props.message.privateTags["风格标签"]
-            }),
-            workExperience: Form.createFormField({
-                value: props.message.workExperience
-            }),
-            headImg: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.headImg
-            }),
-            wxNo: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.wxNo
-            }),
-            height: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.height
-            }),
-            weight: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.weight
-            }),
-            shoeSize: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.shoeSize
-            }),
-            bustSize: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.bustSize
-            }),
-            waistSize: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.waistSize
-            }),
-            hipSize: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.hipSize
-            }),
-            eyeColor: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.eyeColor
-            }),
-            hairColor: Form.createFormField({
-                fromName: "privateInfo",
-                value: props.message.privateInfo.hairColor
-            })
-        };
-    },
-    onFieldsChange(props, changedFields) {
-        props.handleChange(changedFields);
+        let messageDetail = {};
+        Object.keys(props.messageDetail).forEach(key => {
+            if (
+                Object.prototype.toString.call(props.messageDetail[key]) ===
+                "[object Object]"
+            ) {
+                Object.keys(props.messageDetail[key]).forEach(key2 => {
+                    messageDetail[`${key}[${key2}]`] = Form.createFormField({
+                        value: props.messageDetail[key][key2]
+                    });
+                });
+            } else {
+                messageDetail[key] = Form.createFormField({
+                    value: props.messageDetail[key]
+                });
+            }
+        });
+        console.log(messageDetail);
+        return messageDetail;
     }
-})(add);
+})(MessageDetail);
 export default connect(
     mapStateToProps,
     mapDispatchToProps

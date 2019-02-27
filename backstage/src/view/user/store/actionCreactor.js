@@ -5,21 +5,31 @@ import {
     reqDelUser,
     reqUserDetail,
     updateUserInfo,
-    addUserInfo
+    addUserInfo,
+    reqPriveteInfo
 } from "../../../api/user/user";
 import {
     reqTopicList,
     saveTopic,
-    removeTopic,
+    reqDelTopic,
     updateTopic,
     reqTopicDetail
 } from "../../../api/user/topic";
 
-import { message } from "antd";
-
 const clearUserDetail = () => ({ type: actionTypes.CLEAR_USER_DETAIL });
-const clearTopic = () => ({ type: actionTypes.CLEAR_TOPIC_DETAIL });
-const clearMessage = () => ({ type: actionTypes.CLEAR_MESSAGE });
+const clearTopicDetail = () => ({ type: actionTypes.CLEAR_TOPIC_DETAIL });
+const removeTopic = data => ({
+    type: actionTypes.DEL_TOPIC,
+    data
+});
+const setTopicList = data => ({
+    type: actionTypes.CHANGE_TOPIC_LIST,
+    data
+});
+const setTiodetail = data => ({
+    type: actionTypes.SET_TOPIC_DETAIL,
+    data
+});
 const setUserList = data => ({
     type: actionTypes.CHANGE_USER_LIST,
     data
@@ -30,6 +40,10 @@ const setUserDetail = data => ({
 });
 const removeUser = data => ({
     type: actionTypes.DEL_USER,
+    data
+});
+const setUserMessage = data => ({
+    type: actionTypes.SET_USER_MESSAGE,
     data
 });
 
@@ -49,7 +63,6 @@ export const delUser = id => {
         if (data.resultCode === 1000) {
             dispatch(removeUser(id));
         } else {
-            message.error("This is a message of error");
         }
     };
 };
@@ -69,10 +82,8 @@ export const editUser = param => {
         let { data } = await updateUserInfo(param);
         if (data.resultCode === 1000) {
             dispatch(clearUserDetail());
-            message.success("修改成功");
             return true;
         } else {
-            message.error("This is a message of error");
         }
     };
 };
@@ -82,10 +93,8 @@ export const addUser = param => {
         let { data } = await addUserInfo(param);
         if (data.resultCode === 1000) {
             dispatch(clearUserDetail());
-            message.success("添加成功");
             return true;
         } else {
-            message.error("This is a message of error");
         }
     };
 };
@@ -94,16 +103,17 @@ export const getTopicList = param => {
     return async dispatch => {
         let { data } = await reqTopicList(param);
         if (data.resultCode === 1000) {
+            dispatch(setTopicList(data.resultData));
         } else {
-            message.error("This is a message of error");
         }
     };
 };
-//删除帖子
+// //删除帖子
 export const delTopic = param => {
     return async dispatch => {
-        let { data } = await removeTopic(param);
+        let { data } = await reqDelTopic(param);
         if (data.resultCode === 1000) {
+            dispatch(removeTopic(param));
             return true;
         } else {
             return false;
@@ -115,17 +125,20 @@ export const addTopic = param => {
     return async dispatch => {
         let { data } = await saveTopic(param);
         if (data.resultCode === 1000) {
-            dispatch(clearTopic());
+            dispatch(clearTopicDetail());
             return true;
         } else {
             return false;
         }
     };
 };
+
+//获取帖子详情
 export const getTopicDetail = param => {
     return async dispatch => {
-        let { data } = await updateTopic(param);
+        let { data } = await reqTopicDetail(param);
         if (data.resultCode === 1000) {
+            dispatch(setTiodetail(data.resultData));
             return true;
         } else {
             return false;
@@ -138,7 +151,7 @@ export const editTopic = param => {
     return async dispatch => {
         let { data } = await updateTopic(param);
         if (data.resultCode === 1000) {
-            dispatch(clearTopic());
+            dispatch(clearTopicDetail());
             return true;
         } else {
             return false;
@@ -146,14 +159,25 @@ export const editTopic = param => {
     };
 };
 
-export const addMessage = param => {
+//获取私密信息
+export const getUserMessage = param => {
+    return async dispatch => {
+        let { data } = await reqPriveteInfo(param);
+        if (data.resultCode === 1000) {
+            if (data.resultData) {
+                dispatch(setUserMessage(data.resultData));
+            }
+        }
+    };
+};
+//添加私密信息
+export const addUserMessage = param => {
     return async dispatch => {
         let { data } = await putPriveteInfo(param);
         if (data.resultCode === 1000) {
-            dispatch(clearMessage());
-            message.success("添加成功");
+            return true;
         } else {
-            message.error("This is a message of error");
+            return false;
         }
     };
 };

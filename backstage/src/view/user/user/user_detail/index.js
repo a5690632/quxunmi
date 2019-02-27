@@ -11,7 +11,8 @@ import {
     Radio,
     Cascader,
     Row,
-    Col
+    Col,
+    Tabs
 } from "antd";
 import city from "../../../../staic/address";
 import { qiniuAction, qiniuUrl } from "../../../../api/common/common.js";
@@ -29,6 +30,7 @@ export class UserDetail extends Component {
         const { headImg } = this.state;
         const { token, handleSubmit } = this.props;
         const { getFieldDecorator } = this.props.form;
+        const TabPane = Tabs.TabPane;
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? "loading" : "plus"} />
@@ -47,9 +49,15 @@ export class UserDetail extends Component {
         };
         return (
             <div className="user-detail">
-                <h3 className="name">
-                    {this.state.id ? "编辑用户" : "增加用户"}
-                </h3>
+                <Tabs defaultActiveKey="1" onChange={key => this.jump(key)}>
+                    <TabPane tab="基本信息" key="1" />
+                    <TabPane
+                        tab="私密信息"
+                        key="2"
+                        disabled={this.state.id ? false : true}
+                    />
+                </Tabs>
+
                 <Form onSubmit={e => handleSubmit(e, this)}>
                     <Form.Item label="手机号" {...FromLayout}>
                         {getFieldDecorator("phone", {
@@ -145,7 +153,6 @@ export class UserDetail extends Component {
         );
     }
     componentDidMount() {
-        console.log(1);
         if (this.props.match.params.id) {
             this.props.getDetail(this.props.match.params.id);
             this.setState({
@@ -154,7 +161,7 @@ export class UserDetail extends Component {
         }
     }
     componentDidUpdate(prevProps) {
-        if (this.props.userDetail.headImg != prevProps.userDetail.headImg) {
+        if (this.props.userDetail.headImg !== prevProps.userDetail.headImg) {
             this.setState({
                 headImg: this.props.userDetail.headImg
             });
@@ -191,6 +198,13 @@ export class UserDetail extends Component {
             });
         }
     };
+    jump(key) {
+        if (key === "2") {
+            this.props.history.push({
+                pathname: `/user/message_detail/${this.state.id}`
+            });
+        }
+    }
 }
 
 const mapStateToProps = state => ({
@@ -201,17 +215,17 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     handleSubmit(e, self) {
         e.preventDefault();
-        self.props.form.validateFields(async (err, data) => {
+        self.props.form.validateFields(async (err, values) => {
             if (!err) {
-                data.headImg = self.state.headImg;
-                data.province = data.address[0];
-                data.city = data.address[1];
+                values.headImg = self.state.headImg;
+                values.province = values.address[0];
+                values.city = values.address[1];
                 let status;
                 if (self.state.id) {
-                    data.id = self.state.id;
-                    status = await dispatch(editUser(data));
+                    values.id = self.state.id;
+                    status = await dispatch(editUser(values));
                 } else {
-                    status = await dispatch(addUser(data));
+                    status = await dispatch(addUser(values));
                 }
                 if (status) {
                     self.props.history.push({

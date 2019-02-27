@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import locale from "antd/lib/date-picker/locale/zh_CN";
+import moment from "moment";
 import {
     addTopic,
     editTopic,
@@ -15,7 +17,8 @@ import {
     Cascader,
     Modal,
     Row,
-    Col
+    Col,
+    DatePicker
 } from "antd";
 import city from "../../../../staic/address";
 import { qiniuAction, qiniuUrl } from "../../../../api/common/common.js";
@@ -27,20 +30,22 @@ export class TopicDetail extends Component {
         this.state = {
             previewVisible: false,
             previewImage: "",
-            fileList: [],
-            imgList: []
+            imgList: [],
+            time: new Date()
         };
     }
     render() {
-        const { previewVisible, previewImage, fileList } = this.state;
+        const { previewVisible, previewImage, imgList } = this.state;
         const { token, handleSubmit } = this.props;
         const { getFieldDecorator } = this.props.form;
+
         const uploadButton = (
             <div>
                 <Icon type="plus" />
                 <div className="ant-upload-text">Upload</div>
             </div>
         );
+
         const FromLayout = {
             labelCol: {
                 sm: 24,
@@ -54,16 +59,25 @@ export class TopicDetail extends Component {
         return (
             <div className="topic-detail">
                 <h3 className="name">增加帖子</h3>
-                <Form onSubmit={e => handleSubmit(e, this.props)}>
-                    <Form.Item label="用户id" {...FromLayout}>
-                        {getFieldDecorator("userId", {
-                            rules: [{ required: true, message: "请输入用户id" }]
-                        })(<Input placeholder="请输入用户id" />)}
-                    </Form.Item>
+                <Form onSubmit={e => handleSubmit(e, this)}>
                     <Form.Item label="标题" {...FromLayout}>
                         {getFieldDecorator("title", {
                             rules: [{ required: true, message: "请输入标题" }]
                         })(<Input placeholder="请输入标题" />)}
+                    </Form.Item>
+                    <Form.Item label="发布时间" {...FromLayout}>
+                        {getFieldDecorator("publishTime", {
+                            rules: [{ required: true, message: "请输入标题" }]
+                        })(
+                            <div>
+                                <DatePicker
+                                    placeholder=""
+                                    locale={locale}
+                                    value={moment(this.state.time)}
+                                    onChange={this.timeChange}
+                                />
+                            </div>
+                        )}
                     </Form.Item>
                     <Form.Item label="内容" {...FromLayout}>
                         {getFieldDecorator("content", {
@@ -94,7 +108,7 @@ export class TopicDetail extends Component {
                         })(<Cascader options={city} />)}
                     </Form.Item>
                     <Form.Item label="图片" {...FromLayout}>
-                        {getFieldDecorator("archives", {
+                        {getFieldDecorator("photoList", {
                             rules: [
                                 {
                                     required: true,
@@ -102,21 +116,30 @@ export class TopicDetail extends Component {
                                 }
                             ]
                         })(
-                            <div className="clearfix">
+                            <div className="archives">
+                                {imgList.map(img => {
+                                    return (
+                                        <img
+                                            alt=""
+                                            src={img}
+                                            key={img}
+                                            onClick={this.handlePreview}
+                                        />
+                                    );
+                                })}
                                 <Upload
                                     multiple
                                     name="file"
                                     action={qiniuAction}
                                     listType="picture-card"
-                                    fileList={fileList}
-                                    onPreview={this.handlePreview}
+                                    showUploadList={false}
                                     beforeUpload={this.beforeUpload}
                                     onChange={this.unloadChange}
                                     data={() => ({
                                         token
                                     })}
                                 >
-                                    {fileList.length >= 3 ? null : uploadButton}
+                                    {uploadButton}
                                 </Upload>
                                 <Modal
                                     visible={previewVisible}
@@ -144,35 +167,55 @@ export class TopicDetail extends Component {
         );
     }
     componentDidMount() {
-        let { id } = this.props.match.params;
+        let { id, userId } = this.props.match.params;
+
+        this.setState({
+            id,
+            userId
+        });
         if (id) {
-            this.props.getTopicDetail(id);
+            this.props.getTopicDetail({ id });
         }
     }
-
+    componentDidUpdate(prevProps) {
+        if (this.props.topicDetail.userId !== prevProps.topicDetail.userId) {
+            if (this.props.topicDetail.photoList != null) {
+                this.setState({
+                    imgList: this.props.topicDetail.photoList
+                });
+            }
+            if (this.props.topicDetail.publishTime != null) {
+                this.setState(
+                    {
+                        time: this.props.topicDetail.publishTime
+                    },
+                    () => {
+                        console.log(this.state.time);
+                    }
+                );
+            }
+        }
+    }
     handleCancel = () => this.setState({ previewVisible: false });
-
-    handlePreview = file => {
+    timeChange = (value, dateString) => {
         this.setState({
-            previewImage: file.url || file.thumbUrl,
+            time: dateString
+        });
+    };
+    handlePreview = e => {
+        this.setState({
+            previewImage: e.target.src,
             previewVisible: true
         });
     };
 
-    unloadChange = ({ file, fileList }) => {
-        this.setState({ fileList });
+    unloadChange = ({ file }) => {
         let { imgList } = { ...this.state };
 
         if (file.status === "done") {
             let img = `${qiniuUrl}${file.response.key}`;
             imgList.push(img);
-            this.setState({ ...this.state, imgList });
-            this.props.handleChange({
-                archives: {
-                    name: "archives",
-                    value: [...this.state.imgList]
-                }
-            });
+            this.setState({ imgList }, () => {});
         }
     };
     beforeUpload = file => {
@@ -197,20 +240,33 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    handleSubmit(e, props) {
+    handleSubmit(e, self) {
         e.preventDefault();
-        props.form.validateFields((err, values) => {
+        self.props.form.validateFields(async (err, values) => {
             if (!err) {
-                if (this.state.id) {
-                    dispatch(editTopic());
+                values.userId = self.state.userId;
+                values.archives = self.state.imgList;
+                values.province = values.address[0];
+                values.city = values.address[1];
+                values.publishTime = self.state.time;
+                let status;
+                if (self.state.id) {
+                    values.id = self.state.id;
+                    status = await dispatch(editTopic(values));
                 } else {
-                    dispatch(addTopic());
+                    status = await dispatch(addTopic(values));
+                }
+                if (status) {
+                    message.success("成功");
+                    self.props.history.push({
+                        pathname: `/user/topic_list/${self.state.userId}`
+                    });
                 }
             }
         });
     },
-    getTopicDetail(id) {
-        dispatch(getTopicDetail(id));
+    getTopicDetail(param) {
+        dispatch(getTopicDetail(param));
     }
 });
 

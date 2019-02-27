@@ -1,6 +1,6 @@
 import { combineReducers } from "redux-immutable";
 import { fromJS } from "immutable";
-import { MENULIST, QINIU_TOKEN, LOGIN } from "./actionTypes";
+import { QINIU_TOKEN, LOGIN } from "./actionTypes";
 import { userReducer } from "../view/user/store/index";
 
 const initState = fromJS({
