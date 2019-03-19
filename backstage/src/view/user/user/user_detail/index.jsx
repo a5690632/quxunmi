@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addUser, getUserDetail, editUser } from "../../store/actionCreactor";
+import {
+    addUser,
+    getUserDetail,
+    editUser,
+    clearUserDetail
+} from "../../store/actionCreactor";
 import {
     Form,
     Input,
@@ -27,7 +32,7 @@ export class UserDetail extends Component {
         };
     }
     render() {
-        const { headImg } = this.state;
+        const { headImg, cover } = this.state;
         const { token, handleSubmit } = this.props;
         const { getFieldDecorator } = this.props.form;
         const TabPane = Tabs.TabPane;
@@ -63,6 +68,11 @@ export class UserDetail extends Component {
                         {getFieldDecorator("phone", {
                             rules: [{ required: true, message: "请输入电话" }]
                         })(<Input placeholder="请输入手机号" />)}
+                    </Form.Item>
+                    <Form.Item label="类型" {...FromLayout}>
+                        {getFieldDecorator("occupation", {
+                            rules: [{ required: true, message: "请输入昵称" }]
+                        })(<Input placeholder="请输入用户类型" />)}
                     </Form.Item>
                     <Form.Item label="昵称" {...FromLayout}>
                         {getFieldDecorator("nickName", {
@@ -128,7 +138,7 @@ export class UserDetail extends Component {
                                 showUploadList={false}
                                 action={qiniuAction}
                                 beforeUpload={this.beforeUpload}
-                                onChange={this.unloadChange}
+                                onChange={(info) => this.unloadChange(info, "headImg")}
                                 data={() => ({
                                     token
                                 })}
@@ -136,8 +146,37 @@ export class UserDetail extends Component {
                                 {headImg ? (
                                     <img src={headImg} alt="avatar" />
                                 ) : (
-                                    uploadButton
-                                )}
+                                        uploadButton
+                                    )}
+                            </Upload>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="封面" {...FromLayout}>
+                        {getFieldDecorator("cover", {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: "请选择图片"
+                                }
+                            ]
+                        })(
+                            <Upload
+                                name="file"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                action={qiniuAction}
+                                beforeUpload={this.beforeUpload}
+                                onChange={(info) => this.unloadChange(info, "cover")}
+                                data={() => ({
+                                    token
+                                })}
+                            >
+                                {cover ? (
+                                    <img src={cover} alt="avatar" />
+                                ) : (
+                                        uploadButton
+                                    )}
                             </Upload>
                         )}
                     </Form.Item>
@@ -163,11 +202,14 @@ export class UserDetail extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.userDetail.headImg !== prevProps.userDetail.headImg) {
             this.setState({
-                headImg: this.props.userDetail.headImg
+                headImg: this.props.userDetail.headImg,
+                cover: this.props.userDetail.cover
             });
         }
     }
-
+    componentWillUnmount() {
+        this.props.destroy();
+    }
     beforeUpload = file => {
         const isJPG = file.type === "image/jpeg";
         const isPNG = file.type === "image/png";
@@ -182,7 +224,7 @@ export class UserDetail extends Component {
             return false;
         }
     };
-    unloadChange = info => {
+    unloadChange = (info, type) => {
         if (info.file.status === "uploading") {
             this.setState({
                 loading: true
@@ -194,7 +236,7 @@ export class UserDetail extends Component {
             });
             let img = `${qiniuUrl}${info.file.response.key}`;
             this.setState({
-                headImg: img
+                [type]: img
             });
         }
     };
@@ -220,6 +262,8 @@ const mapDispatchToProps = dispatch => ({
                 values.headImg = self.state.headImg;
                 values.province = values.address[0];
                 values.city = values.address[1];
+                values.cover = self.state.cover
+                console.log(values)
                 let status;
                 if (self.state.id) {
                     values.id = self.state.id;
@@ -237,6 +281,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getDetail(id) {
         dispatch(getUserDetail({ id }));
+    },
+    destroy() {
+        dispatch(clearUserDetail());
     }
 });
 

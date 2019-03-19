@@ -30,6 +30,7 @@ export const login = param => {
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("userId", userId);
                 dispatch(setUserId({ userId, accessToken }));
+                return true
             } else {
                 message.error("This is message of warning");
             }

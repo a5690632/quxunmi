@@ -5,7 +5,8 @@ import moment from "moment";
 import {
     addTopic,
     editTopic,
-    getTopicDetail
+    getTopicDetail,
+    clearTopicDetail
 } from "../../store/actionCreactor";
 import {
     Form,
@@ -30,15 +31,13 @@ export class TopicDetail extends Component {
         this.state = {
             previewVisible: false,
             previewImage: "",
-            imgList: [],
-            time: new Date()
+            imgList: []
         };
     }
     render() {
         const { previewVisible, previewImage, imgList } = this.state;
         const { token, handleSubmit } = this.props;
         const { getFieldDecorator } = this.props.form;
-
         const uploadButton = (
             <div>
                 <Icon type="plus" />
@@ -66,17 +65,19 @@ export class TopicDetail extends Component {
                         })(<Input placeholder="请输入标题" />)}
                     </Form.Item>
                     <Form.Item label="发布时间" {...FromLayout}>
-                        {getFieldDecorator("publishTime", {
-                            rules: [{ required: true, message: "请输入标题" }]
+                        {getFieldDecorator("time", {
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ]
                         })(
-                            <div>
-                                <DatePicker
-                                    placeholder=""
-                                    locale={locale}
-                                    value={moment(this.state.time)}
-                                    onChange={this.timeChange}
-                                />
-                            </div>
+                            <DatePicker
+                                locale={locale}
+                                placeholder="请选择时间"
+                                showTime
+                                format="YYYY-MM-DD"
+                            />
                         )}
                     </Form.Item>
                     <Form.Item label="内容" {...FromLayout}>
@@ -117,14 +118,24 @@ export class TopicDetail extends Component {
                             ]
                         })(
                             <div className="archives">
-                                {imgList.map(img => {
+                                {imgList.map((img, index) => {
                                     return (
-                                        <img
-                                            alt=""
-                                            src={img}
-                                            key={img}
-                                            onClick={this.handlePreview}
-                                        />
+                                        <div className="img-box">
+                                            <img
+                                                alt=""
+                                                src={img}
+                                                key={img}
+                                                onClick={this.handlePreview}
+                                            />
+                                            <Icon
+                                                type="close-circle"
+                                                className="del"
+                                                key={index}
+                                                onClick={() =>
+                                                    this.delImg(index)
+                                                }
+                                            />
+                                        </div>
                                     );
                                 })}
                                 <Upload
@@ -185,16 +196,14 @@ export class TopicDetail extends Component {
                 });
             }
             if (this.props.topicDetail.publishTime != null) {
-                this.setState(
-                    {
-                        time: this.props.topicDetail.publishTime
-                    },
-                    () => {
-                        console.log(this.state.time);
-                    }
-                );
+                this.setState({
+                    time: this.props.topicDetail.publishTime
+                });
             }
         }
+    }
+    componentWillUnmount() {
+        this.props.destroy();
     }
     handleCancel = () => this.setState({ previewVisible: false });
     timeChange = (value, dateString) => {
@@ -211,7 +220,6 @@ export class TopicDetail extends Component {
 
     unloadChange = ({ file }) => {
         let { imgList } = { ...this.state };
-
         if (file.status === "done") {
             let img = `${qiniuUrl}${file.response.key}`;
             imgList.push(img);
@@ -232,6 +240,12 @@ export class TopicDetail extends Component {
             return false;
         }
     };
+    delImg = index => {
+        let { imgList } = { ...this.state };
+        console.log(index);
+        imgList.splice(index, 1);
+        this.setState({ imgList });
+    };
 }
 
 const mapStateToProps = state => ({
@@ -248,7 +262,8 @@ const mapDispatchToProps = dispatch => ({
                 values.archives = self.state.imgList;
                 values.province = values.address[0];
                 values.city = values.address[1];
-                values.publishTime = self.state.time;
+                values.publishTime = values.time.format("YYYY-MM-DD HH:mm:ss");
+
                 let status;
                 if (self.state.id) {
                     values.id = self.state.id;
@@ -262,11 +277,16 @@ const mapDispatchToProps = dispatch => ({
                         pathname: `/user/topic_list/${self.state.userId}`
                     });
                 }
+            } else {
+                console.log(values);
             }
         });
     },
     getTopicDetail(param) {
         dispatch(getTopicDetail(param));
+    },
+    destroy() {
+        dispatch(clearTopicDetail());
     }
 });
 
@@ -279,9 +299,20 @@ const WrappedNormalLoginForm = Form.create({
                 value: props.topicDetail[key]
             });
         });
+
         topicDetail.address = Form.createFormField({
             value: [props.topicDetail.province, props.topicDetail.city]
         });
+        if (props.topicDetail.publishTime) {
+            topicDetail.time = Form.createFormField({
+                value: moment(props.topicDetail.publishTime)
+            });
+        } else {
+            topicDetail.time = Form.createFormField({
+                value: ""
+            });
+        }
+
         return topicDetail;
     }
 })(TopicDetail);

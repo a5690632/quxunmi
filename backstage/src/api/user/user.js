@@ -3,12 +3,12 @@ import line from "../basic/basic";
 
 /**
  *@method reqUserList 用户列表
- *@param {string} pageNo 页码
+ *@param {string} pageNum 页码
  *@param {string}  pageSize 每页数量
  */
 
-export const reqUserList = ({ pageNo, pageSize }) => {
-    return axios.post(`${line}getUserList`, { pageNo, pageSize });
+export const reqUserList = ({ pageNum, pageSize }) => {
+    return axios.post(`${line}getUserList`, { pageNum, pageSize });
 };
 
 /**
@@ -72,7 +72,9 @@ export const updateUserInfo = ({
     age,
     gender,
     introduction,
-    id
+    id,
+    occupation,
+    cover
 }) => {
     return axios.post(`${line}updateUserInfo`, {
         phone,
@@ -83,7 +85,9 @@ export const updateUserInfo = ({
         age,
         gender,
         introduction,
-        id
+        id,
+        occupation,
+        cover
     });
 };
 
@@ -95,6 +99,29 @@ export const updateUserInfo = ({
 export const reqDelUser = id => {
     return axios.post(`${line}delUser`, { id });
 };
+/**
+ * @method reqShowUser   上架
+ * @param {string}  id  用户id
+ * 
+ *
+ */
+
+export const reqShowUser = ({ id }) => {
+    return axios.post(`${line}upUser`, { id })
+}
+
+/**
+ * @method reqHideUser 下架
+ * @param {string}  id  用户id
+ * 
+ *
+ */
+
+export const reqHideUser = ({ id }) => {
+    return axios.post(`${line}underUser`, { id })
+}
+
+
 
 /**
  * @method putPriveteInfo   添加用户私密信息

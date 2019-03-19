@@ -55,7 +55,7 @@ export class topicList extends Component {
                                     to={{
                                         pathname: `/user/topic_detail/${
                                             this.state.userId
-                                        }/${text.id}`
+                                            }/${text.id}`
                                     }}
                                 >
                                     编辑
@@ -90,7 +90,7 @@ export class topicList extends Component {
             userId
         });
         if (userId) {
-            this.props.getTopicList({ userId, pageNo: 1, pageSize: 10 });
+            this.props.getTopicList({ userId, pageNum: this.props.pagination.current, pageSize: 10 });
         }
     }
 }
@@ -98,7 +98,8 @@ export class topicList extends Component {
 const mapStateToProps = state => ({
     topicList: state.getIn(["user", "topicList"]).toJS(),
     pagination: {
-        total: state.getIn(["user", "topicList", "count"])
+        total: state.getIn(["user", "topicList", "count"]),
+        current: state.getIn(["user", "topicIndex",])
     }
 });
 
@@ -108,10 +109,10 @@ const mapDispatchToProps = (dispatch, prop) => {
             dispatch(getTopicList(data));
         },
         handleTableChange: page => {
-            dispatch(getTopicList({ pageNo: page, pageSize: 10 }));
+            dispatch(getTopicList({ pageNum: page.current, pageSize: 10 }));
         },
         delTopic: id => {
-            console.log(id);
+
             dispatch(delTopic({ id }));
         }
     };

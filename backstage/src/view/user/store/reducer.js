@@ -6,7 +6,10 @@ const InitState = fromJS({
         userList: [],
         count: ""
     },
+    userIndex: 1,
     userDetail: {
+        occupation: "", //类型
+        cover: "", //封面
         phone: "", //电话
         nickName: "", //昵称
         headImg: "", //头像
@@ -20,6 +23,7 @@ const InitState = fromJS({
         topicList: [],
         count: ""
     },
+    topicIndex: 1,
     topicDetail: {
         userId: "",
         title: "",
@@ -56,10 +60,10 @@ const reducer = (state = InitState, { type, data }) => {
     switch (type) {
         case actionTypes.CHANGE_USER_LIST:
             return state.set("userList", fromJS(data));
-
+        case actionTypes.SET_USER_INDEX:
+            return state.set("userIndex", data)
         case actionTypes.SET_USER_DETAIL:
             return state.set("userDetail", fromJS(data));
-
         case actionTypes.CLEAR_USER_DETAIL:
             return state.merge({
                 userDetail: state.get("userDetail").map(item => {
@@ -76,10 +80,12 @@ const reducer = (state = InitState, { type, data }) => {
                 ["userList", "userList"],
                 state.getIn(["userList", "userList"]).delete(userIndex)
             );
-
+        case actionTypes.CHANGE_DISPLAT_FLAG:
+            return state.setIn(["userList", "userList", data.index, 'displayFlag'], data.flag)
         case actionTypes.SET_USER_MESSAGE:
             return state.set("messageDetail", fromJS(data));
-
+        case actionTypes.SET_TOPIC_INDEX:
+            return state.set("topicIndex", data)
         case actionTypes.SET_TOPIC_DETAIL:
             return state.set("topicDetail", fromJS(data));
         case actionTypes.CHANGE_TOPIC_LIST:
@@ -108,7 +114,6 @@ const reducer = (state = InitState, { type, data }) => {
                 ["topicList", "topicList"],
                 state.getIn(["topicList", "topicList"]).delete(TopicIndex)
             );
-
         default:
             return state;
     }

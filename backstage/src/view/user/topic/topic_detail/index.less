@@ -9,10 +9,22 @@
     .archives {
         display: flex;
         margin-right: 200px;
-        img {
-            max-width: 102px;
-            max-height: 102px;
+
+        .img-box {
+            position: relative;
             margin-right: 20px;
+            img {
+                max-width: 102px;
+                max-height: 102px;
+                margin: auto;
+                display: block;
+            }
+            .del {
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                font-size: 20px;
+            }
         }
     }
 }

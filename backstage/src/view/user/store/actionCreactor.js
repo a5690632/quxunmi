@@ -6,7 +6,9 @@ import {
     reqUserDetail,
     updateUserInfo,
     addUserInfo,
-    reqPriveteInfo
+    reqPriveteInfo,
+    reqShowUser,
+    reqHideUser
 } from "../../../api/user/user";
 import {
     reqTopicList,
@@ -16,8 +18,13 @@ import {
     reqTopicDetail
 } from "../../../api/user/topic";
 
-const clearUserDetail = () => ({ type: actionTypes.CLEAR_USER_DETAIL });
-const clearTopicDetail = () => ({ type: actionTypes.CLEAR_TOPIC_DETAIL });
+
+export const clearUserDetail = () => ({
+    type: actionTypes.CLEAR_USER_DETAIL
+});
+export const clearTopicDetail = () => ({
+    type: actionTypes.CLEAR_TOPIC_DETAIL
+});
 const removeTopic = data => ({
     type: actionTypes.DEL_TOPIC,
     data
@@ -26,14 +33,24 @@ const setTopicList = data => ({
     type: actionTypes.CHANGE_TOPIC_LIST,
     data
 });
-const setTiodetail = data => ({
+
+const setTopicdetail = data => ({
     type: actionTypes.SET_TOPIC_DETAIL,
     data
 });
+const setTopicIndex = data => ({
+    type: actionTypes.SET_TOPIC_INDEX,
+    data
+})
+
 const setUserList = data => ({
     type: actionTypes.CHANGE_USER_LIST,
     data
 });
+const setUserIndex = data => ({
+    type: actionTypes.SET_USER_INDEX,
+    data
+})
 const setUserDetail = data => ({
     type: actionTypes.SET_USER_DETAIL,
     data
@@ -46,6 +63,10 @@ const setUserMessage = data => ({
     type: actionTypes.SET_USER_MESSAGE,
     data
 });
+const changeDisplayFlag = data => ({
+    type: actionTypes.CHANGE_DISPLAT_FLAG,
+    data
+})
 
 //用户列表
 export const getUserList = param => {
@@ -53,6 +74,7 @@ export const getUserList = param => {
         let { data } = await reqUserList(param);
         if (data.resultCode === 1000) {
             dispatch(setUserList(data.resultData));
+            dispatch(setUserIndex(param.pageNum))
         }
     };
 };
@@ -62,8 +84,7 @@ export const delUser = id => {
         let { data } = await reqDelUser(id);
         if (data.resultCode === 1000) {
             dispatch(removeUser(id));
-        } else {
-        }
+        } else {}
     };
 };
 
@@ -83,8 +104,7 @@ export const editUser = param => {
         if (data.resultCode === 1000) {
             dispatch(clearUserDetail());
             return true;
-        } else {
-        }
+        } else {}
     };
 };
 //增加用户
@@ -94,18 +114,38 @@ export const addUser = param => {
         if (data.resultCode === 1000) {
             dispatch(clearUserDetail());
             return true;
-        } else {
+        } else {}
+    };
+};
+//上架
+export const showUser = param => {
+    return async dispatch => {
+        let { data } = await reqShowUser(param);
+        if (data.resultCode === 1000) {
+            dispatch(changeDisplayFlag({ index: param.index, flag: true }))
+            return true
         }
     };
 };
+//下架
+export const hideUser = param => {
+    return async dispatch => {
+        let { data } = await reqHideUser(param);
+        if (data.resultCode === 1000) {
+            dispatch(changeDisplayFlag({ index: param.index, flag: false }))
+            return true
+        }
+    }
+}
 //获取帖子列表
 export const getTopicList = param => {
     return async dispatch => {
         let { data } = await reqTopicList(param);
         if (data.resultCode === 1000) {
             dispatch(setTopicList(data.resultData));
-        } else {
-        }
+            dispatch(setTopicIndex(param.pageNum))
+
+        } else {}
     };
 };
 // //删除帖子
@@ -138,7 +178,7 @@ export const getTopicDetail = param => {
     return async dispatch => {
         let { data } = await reqTopicDetail(param);
         if (data.resultCode === 1000) {
-            dispatch(setTiodetail(data.resultData));
+            dispatch(setTopicdetail(data.resultData));
             return true;
         } else {
             return false;

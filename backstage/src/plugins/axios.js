@@ -21,6 +21,9 @@ axios.interceptors.request.use(
 // 添加一个响应拦截器
 axios.interceptors.response.use(
     function(response) {
+        if (response.data.resultCode === 2010) {
+            localStorage.clear()
+        }
         return response;
     },
     function(error) {

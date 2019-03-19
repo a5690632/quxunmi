@@ -4,12 +4,12 @@ import axios from "../../plugins/axios";
 /**
  *   @method reqTopicList  获取帖子列表
  *  @param {string} id 用户id
- *  @param {string} pageNo 页码
+ *  @param {string} pageNum 页码
  *  @param {string} pageSize 每页数量
  */
 
-export const reqTopicList = ({ userId, pageNo, pageSize }) => {
-    return axios.post(`${line}getTopicList`, { userId, pageNo, pageSize });
+export const reqTopicList = ({ userId, pageNum, pageSize }) => {
+    return axios.post(`${line}getTopicList`, { userId, pageNum, pageSize });
 };
 
 /**

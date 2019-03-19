@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { Table, Button } from "antd";
+import { Table, Button, message } from "antd";
 import { Link } from "react-router-dom";
-import { getUserList, delUser } from "../../store/actionCreactor";
+import {
+    getUserList,
+    delUser,
+    showUser,
+    hideUser
+} from "../../store/actionCreactor";
 import "./index.less";
 export class userList extends Component {
     static propTypes = {
@@ -19,6 +24,11 @@ export class userList extends Component {
     render() {
         const columns = [
             {
+                title: "id",
+                key: "id",
+                dataIndex: "id"
+            },
+            {
                 title: "手机号",
                 key: "phone",
                 dataIndex: "phone"
@@ -27,11 +37,6 @@ export class userList extends Component {
                 title: "昵称",
                 key: "nickName",
                 dataIndex: "nickName"
-            },
-            {
-                title: "省份",
-                key: "province",
-                dataIndex: "province"
             },
             {
                 title: "城市",
@@ -49,8 +54,23 @@ export class userList extends Component {
                 dataIndex: "gender"
             },
             {
-                title: "操作",
+                title: "类别",
+                key: "occupation",
+                dataIndex: "occupation"
+            },
+            {
+                title: "状态",
                 render: (text, record) => {
+                    if (text.displayFlag) {
+                        return ("上架")
+                    } else {
+                        return "下架"
+                    }
+                }
+            },
+            {
+                title: "操作",
+                render: (text, record, index) => {
                     return (
                         <div className="action">
                             <Button
@@ -59,12 +79,24 @@ export class userList extends Component {
                             >
                                 删除
                             </Button>
+                            <Button
+                                size="small"
+                                onClick={() => this.props.showUser(text.id, index)}
+                            >
+                                上架
+                            </Button>
+                            <Button
+                                size="small"
+                                onClick={() => this.props.hideUser(text.id, index)}
+                            >
+                                下架
+                            </Button>
                             <Button size="small">
                                 <Link
                                     to={{
                                         pathname: `/user/user_detail/${
                                             record.id
-                                        }`
+                                            }`
                                     }}
                                 >
                                     编辑
@@ -75,7 +107,7 @@ export class userList extends Component {
                                     to={{
                                         pathname: `/user/topic_list/${
                                             record.id
-                                        }`
+                                            }`
                                     }}
                                 >
                                     帖子列表
@@ -91,7 +123,7 @@ export class userList extends Component {
         return (
             <div className="user-list">
                 <Button type="primary" className="add">
-                    <Link to="/user/user_detail/">增加用户</Link>
+                    <Link to="/user/user_detail/"> 增加用户 </Link>
                 </Button>
                 <Table
                     columns={columns}
@@ -104,14 +136,18 @@ export class userList extends Component {
         );
     }
     componentDidMount() {
-        this.props.getUserList({ pageNo: 1, pageSize: 10 });
+        this.props.getUserList({
+            pageNum: this.props.pagination.current,
+            pageSize: 10
+        });
     }
 }
 
 const mapStateToProps = state => ({
     userList: state.getIn(["user", "userList"]).toJS(),
     pagination: {
-        total: state.getIn(["user", "userList", "count"])
+        total: state.getIn(["user", "userList", "count"]),
+        current: state.getIn(["user", "userIndex",])
     }
 });
 
@@ -121,10 +157,34 @@ const mapDispatchToProps = (dispatch, prop) => {
             dispatch(getUserList(data));
         },
         handleTableChange: page => {
-            dispatch(getUserList({ pageNo: page, pageSize: 10 }));
+            dispatch(
+                getUserList({
+                    pageNum: page.current,
+                    pageSize: 10
+                })
+            );
         },
-        delUser: id => {
-            dispatch(delUser(id));
+        delUser: async id => {
+            let status = await dispatch(delUser(id));
+            if (status) {
+                message.success("成功")
+            }
+        },
+        showUser: async (id, index) => {
+            let status = await dispatch(showUser({ id, index }));
+            if (status) {
+                message.success("成功")
+            } else {
+                message.error("失败")
+            }
+        },
+        hideUser: async (id, index) => {
+            let status = await dispatch(hideUser({ id, index }));
+            if (status) {
+                message.success("成功")
+            } else {
+                message.error("失败")
+            }
         }
     };
 };

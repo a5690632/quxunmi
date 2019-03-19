@@ -5,10 +5,10 @@ import { Route, Link, Switch, Redirect } from "react-router-dom";
 import "./app.less";
 import { qiniuToken } from "./store/actionCreator";
 
-import UserDetail from "./view/user/user/user_detail/";
-import UserMseeageDetail from "./view/user/user/message_detail/";
-import TopicList from "./view/user/topic/topic_list/";
-import TopicDetail from "./view/user/topic/topic_detail/";
+import UserDetail from "./view/user/user/user_detail";
+import UserMseeageDetail from "./view/user/user/message_detail";
+import TopicList from "./view/user/topic/topic_list";
+import TopicDetail from "./view/user/topic/topic_detail";
 import UserList from "./view/user/user/user_list";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
